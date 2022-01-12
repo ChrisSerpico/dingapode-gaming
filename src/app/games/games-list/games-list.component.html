@@ -11,6 +11,13 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="platform">
+    <th mat-header-cell *matHeaderCellDef>Platform</th>
+    <td mat-cell *matCellDef="let game">
+      {{ game.platform }}
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="ratings">
     <th mat-header-cell *matHeaderCellDef>Num. Ratings</th>
     <td mat-cell *matCellDef="let game">{{ game.numRatings }}</td>
