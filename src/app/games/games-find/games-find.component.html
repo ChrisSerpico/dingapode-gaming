@@ -1,1 +1,23 @@
-<p>games-find works!</p>
+<mat-card>
+  <mat-card-title>Find a game to play</mat-card-title>
+  <mat-card-subtitle
+    >Select everyone who's around, then the extremely fancy algorithm will do
+    the rest</mat-card-subtitle
+  >
+
+  <mat-card-content fxLayout="row wrap">
+    <mat-checkbox
+      *ngFor="let user of users"
+      color="primary"
+      fxFlex="1 1 33%"
+      fxLayoutAlign="start center"
+      class="text-wrap"
+      >{{ user.name }}</mat-checkbox
+    >
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button routerLink="/">Cancel</button>
+    <button mat-raised-button color="primary">Find game</button>
+  </mat-card-actions>
+</mat-card>
