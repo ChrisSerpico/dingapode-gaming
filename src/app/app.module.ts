@@ -16,6 +16,10 @@ import { GamesFindComponent } from './games/games-find/games-find.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatMenuModule,
     MatTableModule,
     MatBadgeModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
