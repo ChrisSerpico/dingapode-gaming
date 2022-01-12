@@ -1,0 +1,26 @@
+.title {
+  margin-left: 16px;
+}
+
+mat-divider {
+  margin-left: 16px;
+  margin-right: 16px;
+  height: 80%;
+}
+
+.main {
+  min-height: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  margin: 1rem auto;
+  width: 80%;
+}
+
+.user-button {
+  margin-left: 16px;
+}

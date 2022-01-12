@@ -1,0 +1,26 @@
+<table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let game">{{ game.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>Price</th>
+    <td mat-cell *matCellDef="let game">
+      {{ game.price > 0 ? game.price : "Free" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ratings">
+    <th mat-header-cell *matHeaderCellDef>Num. Ratings</th>
+    <td mat-cell *matCellDef="let game">{{ game.numRatings }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="favorability">
+    <th mat-header-cell *matHeaderCellDef>Favorability</th>
+    <td mat-cell *matCellDef="let game">{{ game.favorability }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
