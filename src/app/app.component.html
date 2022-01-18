@@ -1,16 +1,11 @@
-<div class="main mat-app-background">
+<div class="main mat-app-background" *ngIf="(auth.user | async) as authUser; else signInDisplay">
   <mat-toolbar color="primary">
     <mat-icon>pedal_bike</mat-icon>
     <span class="title">Video Memes Gaming</span>
 
     <mat-divider [vertical]="true"></mat-divider>
 
-    <button
-      mat-stroked-button
-      [matMenuTriggerFor]="gamesMenu"
-      matBadge="6"
-      matBadgeColor="accent"
-    >
+    <button mat-stroked-button [matMenuTriggerFor]="gamesMenu" matBadge="6" matBadgeColor="accent">
       Games
     </button>
     <mat-menu #gamesMenu="matMenu">
@@ -28,9 +23,22 @@
 
     <span class="spacer"></span>
 
-    <button mat-raised-button color="accent">Log in</button>
+    <span class="name-display">{{ authUser.displayName }}</span>
+    <button mat-raised-button color="accent" (click)="logOut()">Log Out</button>
   </mat-toolbar>
   <div class="content">
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<ng-template #signInDisplay>
+  <div class="login-background">
+    <mat-card class="centered">
+      <mat-card-title>Welcome to Video Memes Gaming</mat-card-title>
+      <img mat-card-image src="../assets/dat_boi_full.gif">
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="logIn()">Continue with Google</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-template>

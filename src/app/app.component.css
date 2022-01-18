@@ -24,3 +24,58 @@ mat-divider {
 .user-button {
   margin-left: 16px;
 }
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.name-display {
+  margin-right: 16px;
+}
+
+.login-background {
+  height: 100%;
+  background: linear-gradient(233deg, #d6d6d6, #7b62bd, #26174d);
+  background-size: 600% 600%;
+
+  -webkit-animation: BackgroundAnimation 35s ease infinite;
+  -moz-animation: BackgroundAnimation 35s ease infinite;
+  animation: BackgroundAnimation 35s ease infinite;
+}
+
+@-webkit-keyframes BackgroundAnimation {
+  0% {
+    background-position: 0% 87%;
+  }
+  50% {
+    background-position: 100% 14%;
+  }
+  100% {
+    background-position: 0% 87%;
+  }
+}
+@-moz-keyframes BackgroundAnimation {
+  0% {
+    background-position: 0% 87%;
+  }
+  50% {
+    background-position: 100% 14%;
+  }
+  100% {
+    background-position: 0% 87%;
+  }
+}
+@keyframes BackgroundAnimation {
+  0% {
+    background-position: 0% 87%;
+  }
+  50% {
+    background-position: 100% 14%;
+  }
+  100% {
+    background-position: 0% 87%;
+  }
+}

@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDXK8O2j0UI8Igow9xiCvZr40WOSMVcwgE',
+    authDomain: 'dingapode-gaming.firebaseapp.com',
+    projectId: 'dingapode-gaming',
+    storageBucket: 'dingapode-gaming.appspot.com',
+    messagingSenderId: '878304973092',
+    appId: '1:878304973092:web:8d41bbe7620193ad0463b1',
+  },
 };
 
 /*
