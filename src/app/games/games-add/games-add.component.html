@@ -1,9 +1,9 @@
-<form [formGroup]="addGameForm" (ngSubmit)="addGame()">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<form *ngIf="!isLoading" [formGroup]="addGameForm" (ngSubmit)="addGame()">
   <mat-card>
     <mat-card-title>Add a new game</mat-card-title>
-    <mat-card-subtitle
-      >Please make sure it hasn't already been added!</mat-card-subtitle
-    >
+    <mat-card-subtitle>Please make sure it hasn't already been added!</mat-card-subtitle>
 
     <mat-card-content>
       <mat-form-field>
@@ -27,12 +27,7 @@
 
     <mat-card-actions align="end">
       <button mat-flat-button routerLink="/" type="button">Cancel</button>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="!addGameForm.valid"
-      >
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addGameForm.valid">
         Submit
       </button>
     </mat-card-actions>

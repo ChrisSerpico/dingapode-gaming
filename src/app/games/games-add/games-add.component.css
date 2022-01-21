@@ -6,3 +6,7 @@ mat-card {
 mat-form-field {
   width: 100%;
 }
+
+mat-spinner {
+  margin: 1rem auto;
+}

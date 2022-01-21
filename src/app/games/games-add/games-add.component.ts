@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Game } from '../game.model';
 
 @Component({
   selector: 'app-games-add',
@@ -12,8 +19,17 @@ export class GamesAddComponent implements OnInit {
     price: new FormControl(0),
     platform: new FormControl(''),
   });
+  isLoading: boolean = false;
 
-  constructor() {}
+  private gameCollection: AngularFirestoreCollection<Game>;
+
+  constructor(
+    private store: AngularFirestore,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
+    this.gameCollection = store.collection<Game>('games');
+  }
 
   ngOnInit(): void {}
 
@@ -21,6 +37,8 @@ export class GamesAddComponent implements OnInit {
     if (!this.addGameForm.valid) {
       return;
     }
+
+    this.isLoading = true;
 
     if (
       !this.addGameForm.get('price') ||
@@ -30,6 +48,22 @@ export class GamesAddComponent implements OnInit {
       this.addGameForm.patchValue({ price: 0 });
     }
 
-    console.log(this.addGameForm.value);
+    const newGame: Game = {
+      name: this.addGameForm.get('title')?.value.trim(),
+      price: this.addGameForm.get('price')?.value,
+      platform: this.addGameForm.get('platform')?.value,
+      favorability: 0,
+      numRatings: 0,
+    };
+
+    this.gameCollection.add(newGame).then(() => {
+      this.isLoading = false; // probably redundant
+      this.snackBar.open(
+        `Successfully added ${newGame.name} to the games list!`,
+        'Dismiss',
+        { duration: 5000 }
+      );
+      this.router.navigate(['/']);
+    });
   }
 }
