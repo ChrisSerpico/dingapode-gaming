@@ -56,14 +56,24 @@ export class GamesAddComponent implements OnInit {
       numRatings: 0,
     };
 
-    this.gameCollection.add(newGame).then(() => {
-      this.isLoading = false; // probably redundant
-      this.snackBar.open(
-        `Successfully added ${newGame.name} to the games list!`,
-        'Dismiss',
-        { duration: 5000 }
-      );
-      this.router.navigate(['/']);
-    });
+    this.gameCollection
+      .add(newGame)
+      .then(() => {
+        this.isLoading = false; // probably redundant
+        this.snackBar.open(
+          `Successfully added ${newGame.name} to the games list!`,
+          'Dismiss',
+          { duration: 5000 }
+        );
+        this.router.navigate(['/']);
+      })
+      .catch(() => {
+        this.isLoading = false;
+        this.snackBar.open(
+          `Failed to add ${newGame.name} to the games list. Please try again later.`,
+          'Dismiss',
+          { duration: 5000 }
+        );
+      });
   }
 }

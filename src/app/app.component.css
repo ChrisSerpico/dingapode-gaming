@@ -32,6 +32,14 @@ mat-divider {
   transform: translate(-50%, -50%);
 }
 
+.centered-title {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
 .name-display {
   margin-right: 16px;
 }
