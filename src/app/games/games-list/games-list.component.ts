@@ -1,29 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 import { Game } from '../game.model';
-
-const FAKE_GAME_DATA: Game[] = [
-  {
-    name: 'League of Legends',
-    price: 0,
-    platform: 'Download',
-    favorability: 97,
-    numRatings: 15,
-  },
-  {
-    name: 'Runescape',
-    price: 0,
-    platform: 'Download',
-    favorability: 63,
-    numRatings: 8,
-  },
-  {
-    name: 'Back 4 Blood',
-    platform: 'Steam',
-    price: 59.99,
-    favorability: 55,
-    numRatings: 6,
-  },
-];
 
 @Component({
   selector: 'app-games-list',
@@ -31,7 +12,9 @@ const FAKE_GAME_DATA: Game[] = [
   styleUrls: ['./games-list.component.css'],
 })
 export class GamesListComponent implements OnInit {
-  dataSource: Game[] = FAKE_GAME_DATA;
+  private gamesCollection: AngularFirestoreCollection<Game>;
+  dataSource: Observable<Game[]>;
+
   displayedColumns: string[] = [
     'name',
     'price',
@@ -40,7 +23,10 @@ export class GamesListComponent implements OnInit {
     'favorability',
   ];
 
-  constructor() {}
+  constructor(private store: AngularFirestore) {
+    this.gamesCollection = store.collection<Game>('games');
+    this.dataSource = this.gamesCollection.valueChanges();
+  }
 
   ngOnInit(): void {}
 }
