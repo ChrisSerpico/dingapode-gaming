@@ -5,14 +5,16 @@
 
     <mat-divider [vertical]="true"></mat-divider>
 
-    <button mat-stroked-button [matMenuTriggerFor]="gamesMenu" matBadge="6" matBadgeColor="accent">
+    <button mat-stroked-button [matMenuTriggerFor]="gamesMenu" [matBadge]="numToRate > 0 ? numToRate : null"
+      matBadgeColor="accent">
       Games
     </button>
     <mat-menu #gamesMenu="matMenu">
       <button mat-menu-item routerLink="">List all games</button>
       <button mat-menu-item routerLink="games/add">Add a new game</button>
       <button mat-menu-item routerLink="games/rate">
-        <strong>Rate game willingness (6)</strong>
+        <strong *ngIf="numToRate > 0">Rate game willingness ({{ numToRate }})</strong>
+        <span *ngIf="numToRate == 0">Rate game willingness</span>
       </button>
       <button mat-menu-item routerLink="games/find">Find a game to play</button>
     </mat-menu>

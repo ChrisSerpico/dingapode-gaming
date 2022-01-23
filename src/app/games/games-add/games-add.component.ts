@@ -54,6 +54,7 @@ export class GamesAddComponent implements OnInit {
       platform: this.addGameForm.get('platform')?.value,
       favorability: 0,
       numRatings: 0,
+      usersRated: [],
     };
 
     this.gameCollection

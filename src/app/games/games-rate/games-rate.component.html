@@ -1,47 +1,36 @@
-<form [formGroup]="rateGameForm" (ngSubmit)="rateGame()">
-  <mat-card>
-    <mat-card-title>Rate {{ currentGame.name }}</mat-card-title>
-    <mat-card-subtitle>6 games left to rate</mat-card-subtitle>
+<div *ngIf="!isLoading">
+  <form *ngIf="currentGame != null" [formGroup]="rateGameForm" (ngSubmit)="rateGame()">
+    <mat-card>
+      <mat-card-title>Rate {{ currentGame.name }}</mat-card-title>
+      <mat-card-subtitle>{{ unratedGames.length }} games left to rate</mat-card-subtitle>
 
-    <mat-card-content>
-      <h2>How willing are you to play {{ currentGame.name }}?</h2>
-      <mat-radio-group formControlName="willingness">
-        <mat-radio-button color="primary" value="love"
-          >I'm always down to play</mat-radio-button
-        >
-        <mat-radio-button color="primary" value="like"
-          >I'm sometimes down to play</mat-radio-button
-        >
-        <mat-radio-button color="primary" value="okay"
-          >I'm down to play once in a blue moon</mat-radio-button
-        >
-        <mat-radio-button value="unowned"
-          >I don't have this game</mat-radio-button
-        >
-        <mat-radio-button color="warn" value="hate"
-          >I hate playing this game</mat-radio-button
-        >
-      </mat-radio-group>
+      <mat-card-content>
+        <h2>How willing are you to play {{ currentGame.name }}?</h2>
+        <mat-radio-group formControlName="willingness">
+          <mat-radio-button color="primary" value="love">I'm always down to play</mat-radio-button>
+          <mat-radio-button color="primary" value="like">I'm sometimes down to play</mat-radio-button>
+          <mat-radio-button color="primary" value="okay">I'm down to play once in a blue moon</mat-radio-button>
+          <mat-radio-button value="unowned">I don't have this game</mat-radio-button>
+          <mat-radio-button color="warn" value="hate">I hate playing this game</mat-radio-button>
+        </mat-radio-group>
 
-      <h2 class="lower-question">
-        Are you willing to watch {{ currentGame.name }}?
-      </h2>
-      <mat-checkbox color="primary" formControlName="watch"
-        >I'm down to watch {{ currentGame.name }}</mat-checkbox
-      >
-    </mat-card-content>
+        <h2 class="lower-question">
+          Are you willing to watch {{ currentGame.name }}?
+        </h2>
+        <mat-checkbox color="primary" formControlName="watch">I'm down to watch {{ currentGame.name }}</mat-checkbox>
+      </mat-card-content>
 
-    <mat-card-actions align="end">
-      <button mat-button routerLink="/" type="button">Cancel</button>
-      <button mat-button type="button">Skip</button>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="!rateGameForm.valid"
-      >
-        Submit
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+      <mat-card-actions align="end">
+        <button mat-button routerLink="/" type="button">Cancel</button>
+        <button mat-button type="button" (click)="getNextGame()">Skip</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!rateGameForm.valid">
+          Submit
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+  <p *ngIf="this.currentGame == null">Congratulations! You have rated all currently available games.</p>
+</div>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>

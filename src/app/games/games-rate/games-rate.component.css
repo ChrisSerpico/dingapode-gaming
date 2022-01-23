@@ -18,3 +18,7 @@ mat-radio-button {
 .lower-question {
   margin-top: 20px;
 }
+
+mat-spinner {
+  margin: auto;
+}
