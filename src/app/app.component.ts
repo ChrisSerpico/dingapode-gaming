@@ -13,14 +13,20 @@ export class AppComponent implements OnDestroy {
   title = 'dingapode-gaming';
 
   numToRate: number = 0;
-  private unratedGamesSub: Subscription;
+  private unratedGamesSub?: Subscription;
+  private userAuthSub: Subscription;
 
   constructor(public auth: AngularFireAuth, public gameService: GameService) {
-    this.unratedGamesSub = this.gameService.unratedGames.subscribe(
-      (unratedGames) => {
-        this.numToRate = unratedGames.length;
+    this.userAuthSub = auth.user.subscribe((userInfo) => {
+      if (userInfo) {
+        // logged in
+        this.unratedGamesSub = this.gameService.unratedGames.subscribe(
+          (unratedGames) => {
+            this.numToRate = unratedGames.length;
+          }
+        );
       }
-    );
+    });
   }
 
   logIn() {
@@ -30,10 +36,18 @@ export class AppComponent implements OnDestroy {
   }
 
   logOut() {
+    this.unsubscribeUnratedGames();
     this.auth.signOut();
   }
 
   ngOnDestroy(): void {
-    this.unratedGamesSub.unsubscribe();
+    this.unsubscribeUnratedGames();
+    this.userAuthSub.unsubscribe();
+  }
+
+  private unsubscribeUnratedGames() {
+    if (this.unratedGamesSub) {
+      this.unratedGamesSub.unsubscribe();
+    }
   }
 }
