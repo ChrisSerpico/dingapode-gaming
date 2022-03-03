@@ -4,6 +4,7 @@ export interface Game {
   price: number;
   platform: string;
   favorability: number;
+  blueMoonFavorability: number;
   numRatings: number;
   usersRated: string[];
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -13,7 +13,7 @@ import { Game } from '../game.model';
   templateUrl: './games-add.component.html',
   styleUrls: ['./games-add.component.css'],
 })
-export class GamesAddComponent implements OnInit {
+export class GamesAddComponent {
   addGameForm: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     price: new FormControl(0),
@@ -28,10 +28,8 @@ export class GamesAddComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.gameCollection = store.collection<Game>('games');
+    this.gameCollection = this.store.collection<Game>('games');
   }
-
-  ngOnInit(): void {}
 
   addGame() {
     if (!this.addGameForm.valid) {
@@ -53,6 +51,7 @@ export class GamesAddComponent implements OnInit {
       price: this.addGameForm.get('price')?.value,
       platform: this.addGameForm.get('platform')?.value,
       favorability: 0,
+      blueMoonFavorability: 0,
       numRatings: 0,
       usersRated: [],
     };
