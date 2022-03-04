@@ -15,7 +15,7 @@ export class GameService {
   public allGames: Observable<Game[]>;
   public unratedGames: Observable<Game[]>;
 
-  private gamesCollection: AngularFirestoreCollection<Game>;
+  public gamesCollection: AngularFirestoreCollection<Game>;
 
   constructor(private store: AngularFirestore, private auth: AngularFireAuth) {
     this.gamesCollection = this.store.collection<Game>('games');

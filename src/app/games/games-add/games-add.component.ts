@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Game } from '../game.model';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-games-add',
@@ -21,15 +19,11 @@ export class GamesAddComponent {
   });
   isLoading: boolean = false;
 
-  private gameCollection: AngularFirestoreCollection<Game>;
-
   constructor(
-    private store: AngularFirestore,
+    private gameService: GameService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {
-    this.gameCollection = this.store.collection<Game>('games');
-  }
+  ) {}
 
   addGame() {
     if (!this.addGameForm.valid) {
@@ -56,7 +50,7 @@ export class GamesAddComponent {
       usersRated: [],
     };
 
-    this.gameCollection
+    this.gameService.gamesCollection
       .add(newGame)
       .then(() => {
         this.isLoading = false; // probably redundant

@@ -11,6 +11,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { GameRating } from '../gameRating.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GameRatingService } from '../gameRating.service';
 
 @Component({
   selector: 'app-games-rate',
@@ -26,8 +27,6 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
   currentUser: firebase.User | null = null;
 
-  private gameRatingsCollection: AngularFirestoreCollection<GameRating>;
-
   private unratedGamesSub: Subscription;
   private userSub: Subscription;
 
@@ -38,14 +37,12 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
   constructor(
     private gameService: GameService,
+    private gameRatingService: GameRatingService,
     private auth: AngularFireAuth,
     private store: AngularFirestore,
     private snackBar: MatSnackBar
   ) {
     this.isLoading = true;
-
-    this.gameRatingsCollection =
-      this.store.collection<GameRating>('gameRatings');
 
     this.unratedGamesSub = this.gameService.unratedGames.subscribe((ug) => {
       this.unratedGames = ug;
@@ -140,7 +137,7 @@ export class GamesRateComponent implements OnInit, OnDestroy {
       watch: this.rateGameForm.get('watch')?.value,
     };
 
-    this.gameRatingsCollection
+    this.gameRatingService.gameRatingsCollection
       .add(newRating)
       .then(() => {
         gameDoc.update(updatedGame);
