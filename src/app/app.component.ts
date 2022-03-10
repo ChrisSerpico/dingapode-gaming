@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
 import { GameService } from './games/game.service';
+import { AppUserInfoService } from './users/appUserInfo.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,11 @@ export class AppComponent implements OnDestroy {
   private unratedGamesSub?: Subscription;
   private userAuthSub: Subscription;
 
-  constructor(public auth: AngularFireAuth, public gameService: GameService) {
+  constructor(
+    public auth: AngularFireAuth,
+    public gameService: GameService,
+    public appUserInfoService: AppUserInfoService
+  ) {
     this.userAuthSub = auth.user.subscribe((userInfo) => {
       if (userInfo) {
         // logged in
@@ -25,6 +30,8 @@ export class AppComponent implements OnDestroy {
             this.numToRate = unratedGames.length;
           }
         );
+
+        this.appUserInfoService.createUserInfoIfNecessary(userInfo);
       }
     });
   }
