@@ -10,14 +10,16 @@ import { AppUserInfo } from './appUserInfo.model';
 
 @Injectable({ providedIn: 'root' })
 export class AppUserInfoService {
-  public allUsers: Observable<AppUserInfo[]>;
+  public allUserInfo: Observable<AppUserInfo[]>;
 
   public appUserInfoCollection: AngularFirestoreCollection<AppUserInfo>;
 
   constructor(private store: AngularFirestore, private auth: AngularFireAuth) {
     this.appUserInfoCollection =
       this.store.collection<AppUserInfo>('appUserInfos');
-    this.allUsers = this.appUserInfoCollection.valueChanges({ idField: 'id' });
+    this.allUserInfo = this.appUserInfoCollection.valueChanges({
+      idField: 'id',
+    });
   }
 
   public createUserInfoIfNecessary(newUser: firebase.User) {

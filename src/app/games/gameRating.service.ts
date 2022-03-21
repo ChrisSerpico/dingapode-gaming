@@ -13,4 +13,12 @@ export class GameRatingService {
     this.gameRatingsCollection =
       this.store.collection<GameRating>('gameRatings');
   }
+
+  public getRatings(userIds: string[]) {
+    return this.store
+      .collection<GameRating>('gameRatings', (ref) =>
+        ref.where('user', 'in', userIds)
+      )
+      .get();
+  }
 }

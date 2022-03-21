@@ -1,7 +1,7 @@
 <div class="main mat-app-background" *ngIf="(auth.user | async) as authUser; else signInDisplay">
   <mat-toolbar color="primary">
     <mat-icon>pedal_bike</mat-icon>
-    <span class="title">Video Memes Gaming</span>
+    <span class="title">Dingapode Gaming</span>
 
     <mat-divider [vertical]="true"></mat-divider>
 
@@ -36,7 +36,7 @@
 <ng-template #signInDisplay>
   <div class="login-background">
     <mat-card class="centered">
-      <mat-card-title class="centered-title">Welcome to Video Memes Gaming</mat-card-title>
+      <mat-card-title class="centered-title">Welcome to Dingapode Gaming</mat-card-title>
       <img mat-card-image src="../assets/dat_boi_full.gif">
       <mat-card-actions>
         <button mat-raised-button color="primary" class="full-width" (click)="logIn()">Continue with Google</button>

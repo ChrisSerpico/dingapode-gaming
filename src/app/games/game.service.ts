@@ -31,4 +31,33 @@ export class GameService {
       })
     );
   }
+
+  public calculateFavorValue(
+    willingness: string,
+    blueMoon: boolean = false
+  ): number {
+    switch (willingness) {
+      case 'love':
+        return 3;
+      case 'like':
+        return 2;
+      case 'okay':
+        if (blueMoon) return 3;
+        else return 1;
+      case 'hate':
+        return -1;
+      default:
+        return 0;
+    }
+  }
+
+  public favorSort(a: Game, b: Game) {
+    if (a.favorability > b.favorability) {
+      return -1;
+    }
+    if (a.favorability < b.favorability) {
+      return 1;
+    }
+    return 0;
+  }
 }

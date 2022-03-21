@@ -100,27 +100,10 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
     const gameDoc = this.store.doc<Game>(`games/${this.currentGame.id}`);
 
-    let favorValue = 0;
-    let blueMoonValue = 0;
+    const willingness = this.rateGameForm.get('willingness')?.value;
 
-    switch (this.rateGameForm.get('willingness')?.value) {
-      case 'love':
-        favorValue = 3;
-        blueMoonValue = 3;
-        break;
-      case 'like':
-        favorValue = 2;
-        blueMoonValue = 2;
-        break;
-      case 'okay':
-        favorValue = 1;
-        blueMoonValue = 3;
-        break;
-      case 'hate':
-        favorValue = -1;
-        blueMoonValue = -1;
-        break;
-    }
+    let favorValue = this.gameService.calculateFavorValue(willingness);
+    let blueMoonValue = this.gameService.calculateFavorValue(willingness, true);
 
     const updatedGame: Partial<Game> = {
       numRatings: this.currentGame.numRatings + 1,

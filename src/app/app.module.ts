@@ -30,6 +30,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
+import { GenericGameListComponent } from './games/reusable/generic-game-list/generic-game-list.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { environment } from '../environments/environment';
     GamesRateComponent,
     GamesFindComponent,
     UsersListComponent,
+    GenericGameListComponent,
   ],
   imports: [
     BrowserModule,
