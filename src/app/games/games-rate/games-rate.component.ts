@@ -5,13 +5,12 @@ import { Subscription } from 'rxjs';
 import { Game } from '../game.model';
 import { GameService } from '../game.service';
 import firebase from 'firebase/compat/app';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { GameRating } from '../gameRating.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameRatingService } from '../gameRating.service';
+import { AppUserInfoService } from 'src/app/users/appUserInfo.service';
+import { AppUserInfo } from 'src/app/users/appUserInfo.model';
 
 @Component({
   selector: 'app-games-rate',
@@ -38,6 +37,7 @@ export class GamesRateComponent implements OnInit, OnDestroy {
   constructor(
     private gameService: GameService,
     private gameRatingService: GameRatingService,
+    private userService: AppUserInfoService,
     private auth: AngularFireAuth,
     private store: AngularFirestore,
     private snackBar: MatSnackBar
@@ -98,7 +98,30 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    const gameDoc = this.store.doc<Game>(`games/${this.currentGame.id}`);
+    let userInfo;
+    try {
+      const userSnapshot = await this.userService
+        .getUserInfo(this.currentUser.uid)
+        .toPromise();
+
+      userInfo = userSnapshot.data();
+    } catch (error) {
+      this.snackBar.open(
+        'Error retreiving user data, please try again later.',
+        'Dismiss',
+        { duration: 5000 }
+      );
+      return;
+    }
+
+    if (userInfo == undefined) {
+      this.snackBar.open(
+        'Error retreiving user data, please try again later.',
+        'Dismiss',
+        { duration: 5000 }
+      );
+      return;
+    }
 
     const willingness = this.rateGameForm.get('willingness')?.value;
 
@@ -113,6 +136,11 @@ export class GamesRateComponent implements OnInit, OnDestroy {
         this.currentGame.blueMoonFavorability + blueMoonValue,
     };
 
+    const updatedUserInfo: Partial<AppUserInfo> = {
+      numRatings: userInfo.numRatings + 1,
+      willingness: userInfo.willingness + favorValue,
+    };
+
     const newRating: GameRating = {
       user: this.currentUser.uid,
       game: this.currentGame.id,
@@ -120,25 +148,36 @@ export class GamesRateComponent implements OnInit, OnDestroy {
       watch: this.rateGameForm.get('watch')?.value,
     };
 
-    this.gameRatingService.gameRatingsCollection
-      .add(newRating)
-      .then(() => {
-        gameDoc.update(updatedGame);
-        this.snackBar.open(
-          `Successfully rated ${this.currentGame?.name}!`,
-          'Dismiss',
-          { duration: 5000 }
-        );
-      })
-      .catch(() => {
-        this.snackBar.open(
-          `Could not submit your rating. Please try again later.`,
-          'Dismiss',
-          { duration: 5000 }
-        );
+    try {
+      // necessary because the async handling of updating the current game can happen
+      // before we finish the promise.all
+      const gameName = this.currentGame.name;
 
-        this.isLoading = false;
+      const promises: Promise<any>[] = [];
+      promises.push(
+        this.gameRatingService.gameRatingsCollection.add(newRating)
+      );
+      promises.push(
+        this.gameService.updateGame(this.currentGame.id, updatedGame)
+      );
+      promises.push(
+        this.userService.updateUserInfo(this.currentUser.uid, updatedUserInfo)
+      );
+
+      await Promise.all(promises);
+
+      this.snackBar.open(`Successfully rated ${gameName}!`, 'Dismiss', {
+        duration: 5000,
       });
+    } catch (error) {
+      this.snackBar.open(
+        `Could not submit your rating. Please try again later.`,
+        'Dismiss',
+        { duration: 5000 }
+      );
+
+      this.isLoading = false;
+    }
   }
 
   ngOnDestroy(): void {

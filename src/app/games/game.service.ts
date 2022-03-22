@@ -32,6 +32,14 @@ export class GameService {
     );
   }
 
+  public getGame(id: string) {
+    return this.gamesCollection.doc(id).get();
+  }
+
+  public updateGame(id: string, data: Partial<Game>) {
+    return this.gamesCollection.doc(id).update(data);
+  }
+
   public calculateFavorValue(
     willingness: string,
     blueMoon: boolean = false

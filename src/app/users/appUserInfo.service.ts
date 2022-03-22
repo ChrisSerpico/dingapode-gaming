@@ -44,4 +44,12 @@ export class AppUserInfoService {
       }
     );
   }
+
+  public getUserInfo(uid: string) {
+    return this.appUserInfoCollection.doc(uid).get();
+  }
+
+  public updateUserInfo(uid: string, data: Partial<AppUserInfo>) {
+    return this.appUserInfoCollection.doc(uid).update(data);
+  }
 }
