@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dingapode-gaming": {
+      "hosting": {
+        "dingapode-gaming": [
+          "dingapode-gaming"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dingapode-gaming"
+  }
+}
