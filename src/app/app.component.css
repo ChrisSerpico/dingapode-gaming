@@ -2,6 +2,11 @@
   margin-left: 16px;
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 mat-divider {
   margin-left: 16px;
   margin-right: 16px;
