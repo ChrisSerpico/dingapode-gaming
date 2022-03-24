@@ -95,7 +95,6 @@ export class GamesRateComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
-    this.rateGameForm.reset();
 
     let userInfo;
     try {
@@ -158,6 +157,8 @@ export class GamesRateComponent implements OnInit, OnDestroy {
       promises.push(
         this.userService.updateUserInfo(this.currentUser.uid, updatedUserInfo)
       );
+
+      this.rateGameForm.reset();
 
       await Promise.all(promises);
 
