@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AppUserInfo } from '../appUserInfo.model';
 import { AppUserInfoService } from '../appUserInfo.service';
@@ -16,7 +17,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['name', 'ratings'];
 
-  constructor(private appUserService: AppUserInfoService) {
+  constructor(
+    private appUserService: AppUserInfoService,
+    private router: Router
+  ) {
     this.userSub = this.appUserService.allUserInfo.subscribe((allUsers) => {
       this.currentUsers = allUsers;
       this.isLoading = false;
@@ -24,6 +28,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
+
+  goToUser(userInfo: AppUserInfo) {
+    this.router.navigate(['users/view/', userInfo.uid]);
+  }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();

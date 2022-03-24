@@ -19,6 +19,10 @@ export class GameRatingService {
       .collection<GameRating>('gameRatings', (ref) =>
         ref.where('user', 'in', userIds)
       )
-      .get();
+      .valueChanges({ idField: 'id' });
+  }
+
+  public getRatingsForUser(userId: string) {
+    return this.getRatings([userId]);
   }
 }

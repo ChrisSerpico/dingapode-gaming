@@ -69,11 +69,9 @@ export class GamesFindComponent implements OnInit {
       .subscribe(
         (ratings) => {
           ratings.forEach((rating) => {
-            const ratingData = rating.data();
-
-            let favorability = this.calculatedRatings.get(ratingData.game);
+            let favorability = this.calculatedRatings.get(rating.game);
             const favorValue = this.gameService.calculateFavorValue(
-              ratingData.rating
+              rating.rating
             );
 
             if (favorability != undefined) {
@@ -82,7 +80,7 @@ export class GamesFindComponent implements OnInit {
               favorability = favorValue;
             }
 
-            this.calculatedRatings.set(ratingData.game, favorability);
+            this.calculatedRatings.set(rating.game, favorability);
           });
 
           this.games.forEach((game) => {

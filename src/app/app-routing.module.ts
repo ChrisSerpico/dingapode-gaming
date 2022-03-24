@@ -5,6 +5,7 @@ import { GamesFindComponent } from './games/games-find/games-find.component';
 import { GamesListComponent } from './games/games-list/games-list.component';
 import { GamesRateComponent } from './games/games-rate/games-rate.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
+import { UsersViewComponent } from './users/users-view/users-view.component';
 
 const routes: Routes = [
   { path: '', component: GamesListComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'games/rate', component: GamesRateComponent },
   { path: 'games/find', component: GamesFindComponent },
   { path: 'users/list', component: UsersListComponent },
+  { path: 'users/view/:userId', component: UsersViewComponent },
 ];
 
 @NgModule({

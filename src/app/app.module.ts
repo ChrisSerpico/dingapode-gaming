@@ -31,6 +31,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { GenericGameListComponent } from './games/reusable/generic-game-list/generic-game-list.component';
+import { UsersViewComponent } from './users/users-view/users-view.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { GenericGameListComponent } from './games/reusable/generic-game-list/gen
     GamesFindComponent,
     UsersListComponent,
     GenericGameListComponent,
+    UsersViewComponent,
   ],
   imports: [
     BrowserModule,

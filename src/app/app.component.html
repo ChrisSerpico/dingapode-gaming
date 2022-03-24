@@ -30,9 +30,19 @@
       <button mat-menu-item routerLink="games/find">Find a game to play</button>
     </mat-menu>
 
-    <button mat-stroked-button routerLink="users/list" class="user-button">
+    <button
+      mat-stroked-button
+      [matMenuTriggerFor]="usersMenu"
+      class="user-button"
+    >
       Users
     </button>
+    <mat-menu #usersMenu="matMenu">
+      <button mat-menu-item routerLink="users/list">List all users</button>
+      <button mat-menu-item [routerLink]="'users/view/' + authUser.uid">
+        View your user page
+      </button>
+    </mat-menu>
 
     <span class="spacer"></span>
 

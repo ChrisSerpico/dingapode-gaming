@@ -36,6 +36,14 @@ export class GameService {
     return this.gamesCollection.doc(id).get();
   }
 
+  public getGamesRatedByUser(uid: string) {
+    return this.store
+      .collection<Game>('games', (ref) =>
+        ref.where('usersRated', 'array-contains', uid)
+      )
+      .valueChanges({ idField: 'id' });
+  }
+
   public updateGame(id: string, data: Partial<Game>) {
     return this.gamesCollection.doc(id).update(data);
   }

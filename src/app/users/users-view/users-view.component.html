@@ -1,0 +1,15 @@
+<h1 *ngIf="userInfo">{{ userInfo.name }}</h1>
+
+<div *ngIf="!loadingGameList">
+  <app-generic-game-list
+    *ngIf="gameList.length > 0"
+    [games]="gameList"
+    [displayedColumns]="displayedColumns"
+    [maxFavorValue]="3"
+    [minFavorValue]="-1"
+  ></app-generic-game-list>
+
+  <h3 *ngIf="gameList.length == 0">This bozo hasn't rated any games!</h3>
+</div>
+
+<mat-spinner *ngIf="!userInfo || loadingGameList"></mat-spinner>
