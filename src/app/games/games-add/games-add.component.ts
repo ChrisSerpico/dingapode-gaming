@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SnackBarService } from 'src/app/helpers/snackbar.service';
 import { Game } from '../game.model';
 import { GameService } from '../game.service';
 
@@ -22,7 +21,7 @@ export class GamesAddComponent {
   constructor(
     private gameService: GameService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   addGame() {
@@ -54,19 +53,15 @@ export class GamesAddComponent {
       .add(newGame)
       .then(() => {
         this.isLoading = false; // probably redundant
-        this.snackBar.open(
-          `Successfully added ${newGame.name} to the games list!`,
-          'Dismiss',
-          { duration: 5000 }
+        this.snackBarService.open(
+          `Successfully added ${newGame.name} to the games list!`
         );
         this.router.navigate(['/']);
       })
       .catch(() => {
         this.isLoading = false;
-        this.snackBar.open(
-          `Failed to add ${newGame.name} to the games list. Please try again later.`,
-          'Dismiss',
-          { duration: 5000 }
+        this.snackBarService.open(
+          `Failed to add ${newGame.name} to the games list. Please try again later.`
         );
       });
   }

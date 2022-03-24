@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/helpers/snackbar.service';
 import { AppUserInfo } from 'src/app/users/appUserInfo.model';
 import { AppUserInfoService } from 'src/app/users/appUserInfo.service';
 import { Game } from '../game.model';
@@ -30,7 +30,7 @@ export class GamesFindComponent implements OnInit {
     private appUserInfoService: AppUserInfoService,
     private gameRatingService: GameRatingService,
     private gameService: GameService,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {
     this.appUserInfoService.allUserInfo.subscribe((allUserInfo) => {
       this.users = allUserInfo;
@@ -55,10 +55,9 @@ export class GamesFindComponent implements OnInit {
 
   findGames() {
     if (this.checkedUserIds.length > 10) {
-      this.snackBar.open(
+      this.snackBarService.open(
         "Sorry, only up to 10 users can be searched for at a time. This is due to a Firebase limitation. I'll implement a work around soon :)",
-        'Dismiss',
-        { duration: 12000 }
+        12000
       );
       return;
     }
@@ -107,10 +106,8 @@ export class GamesFindComponent implements OnInit {
           this.isLoading = false;
         },
         (error) => {
-          this.snackBar.open(
-            'Error communicating with server. Please try again later.',
-            'Dismiss',
-            { duration: 5000 }
+          this.snackBarService.open(
+            'Error communicating with server. Please try again later.'
           );
           this.isLoading = false;
         },

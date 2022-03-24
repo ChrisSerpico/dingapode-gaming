@@ -5,12 +5,11 @@ import { Subscription } from 'rxjs';
 import { Game } from '../game.model';
 import { GameService } from '../game.service';
 import firebase from 'firebase/compat/app';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { GameRating } from '../gameRating.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameRatingService } from '../gameRating.service';
 import { AppUserInfoService } from 'src/app/users/appUserInfo.service';
 import { AppUserInfo } from 'src/app/users/appUserInfo.model';
+import { SnackBarService } from 'src/app/helpers/snackbar.service';
 
 @Component({
   selector: 'app-games-rate',
@@ -39,8 +38,7 @@ export class GamesRateComponent implements OnInit, OnDestroy {
     private gameRatingService: GameRatingService,
     private userService: AppUserInfoService,
     private auth: AngularFireAuth,
-    private store: AngularFirestore,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {
     this.isLoading = true;
 
@@ -107,19 +105,15 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
       userInfo = userSnapshot.data();
     } catch (error) {
-      this.snackBar.open(
-        'Error retreiving user data, please try again later.',
-        'Dismiss',
-        { duration: 5000 }
+      this.snackBarService.open(
+        'Error retreiving user data, please try again later.'
       );
       return;
     }
 
     if (userInfo == undefined) {
-      this.snackBar.open(
-        'Error retreiving user data, please try again later.',
-        'Dismiss',
-        { duration: 5000 }
+      this.snackBarService.open(
+        'Error retreiving user data, please try again later.'
       );
       return;
     }
@@ -167,14 +161,10 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
       await Promise.all(promises);
 
-      this.snackBar.open(`Successfully rated ${gameName}!`, 'Dismiss', {
-        duration: 5000,
-      });
+      this.snackBarService.open(`Successfully rated ${gameName}!`);
     } catch (error) {
-      this.snackBar.open(
-        `Could not submit your rating. Please try again later.`,
-        'Dismiss',
-        { duration: 5000 }
+      this.snackBarService.open(
+        `Could not submit your rating. Please try again later.`
       );
 
       this.isLoading = false;
