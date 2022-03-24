@@ -166,6 +166,7 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
       await Promise.all(promises);
 
+      this.rateGameForm.reset();
       this.snackBar.open(`Successfully rated ${gameName}!`, 'Dismiss', {
         duration: 5000,
       });
