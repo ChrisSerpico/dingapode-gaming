@@ -9,7 +9,7 @@ import { GameRating } from '../gameRating.model';
 import { GameRatingService } from '../gameRating.service';
 import { AppUserInfoService } from 'src/app/users/appUserInfo.service';
 import { AppUserInfo } from 'src/app/users/appUserInfo.model';
-import { SnackBarService } from 'src/app/helpers/snackbar.service';
+import { SnackBarService } from 'src/app/helpers/snackBar.service';
 
 @Component({
   selector: 'app-games-rate',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SnackBarService } from 'src/app/helpers/snackbar.service';
+import { SnackBarService } from 'src/app/helpers/snackBar.service';
 import { AppUserInfo } from 'src/app/users/appUserInfo.model';
 import { AppUserInfoService } from 'src/app/users/appUserInfo.service';
 import { Game } from '../game.model';

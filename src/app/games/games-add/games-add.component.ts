@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SnackBarService } from 'src/app/helpers/snackbar.service';
+import { SnackBarService } from 'src/app/helpers/snackBar.service';
 import { Game } from '../game.model';
 import { GameService } from '../game.service';
 
