@@ -97,6 +97,7 @@ export class GamesRateComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading = true;
+    this.rateGameForm.reset();
 
     let userInfo;
     try {
@@ -166,7 +167,6 @@ export class GamesRateComponent implements OnInit, OnDestroy {
 
       await Promise.all(promises);
 
-      this.rateGameForm.reset();
       this.snackBar.open(`Successfully rated ${gameName}!`, 'Dismiss', {
         duration: 5000,
       });
