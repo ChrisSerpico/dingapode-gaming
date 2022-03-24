@@ -1,15 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AppUserInfo } from '../appUserInfo.model';
+import { AppUserInfoService } from '../appUserInfo.service';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.css']
+  styleUrls: ['./users-list.component.css'],
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
+  isLoading: boolean = true;
 
-  constructor() { }
+  currentUsers: AppUserInfo[] = [];
+  private userSub: Subscription;
 
-  ngOnInit(): void {
+  displayedColumns = ['name', 'ratings'];
+
+  constructor(private appUserService: AppUserInfoService) {
+    this.userSub = this.appUserService.allUserInfo.subscribe((allUsers) => {
+      this.currentUsers = allUsers;
+      this.isLoading = false;
+    });
   }
 
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+  }
 }
