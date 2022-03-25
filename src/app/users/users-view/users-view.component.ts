@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { GameRatingService } from 'src/app/games/gameRating.service';
 import { SnackBarService } from 'src/app/helpers/snackBar.service';
 import { AppUserInfo } from '../appUserInfo.model';
 import { AppUserInfoService } from '../appUserInfo.service';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-users-view',
@@ -16,7 +18,10 @@ import { AppUserInfoService } from '../appUserInfo.service';
 })
 export class UsersViewComponent implements OnInit, OnDestroy {
   userInfo?: AppUserInfo;
+  userId: string | null = null;
+  currentUser: firebase.User | null = null;
   private userInfoSub?: Subscription;
+  private userSub?: Subscription;
 
   gameList: Game[] = [];
   loadingGameList: boolean = true;
@@ -24,33 +29,36 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['name', 'favorability'];
 
+  isEditing: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private appUserService: AppUserInfoService,
     private gameService: GameService,
     private gameRatingService: GameRatingService,
     private snackBarService: SnackBarService,
-    private router: Router
+    private router: Router,
+    private auth: AngularFireAuth
   ) {}
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('userId');
+    this.userId = this.route.snapshot.paramMap.get('userId');
 
-    if (userId == null) {
+    if (this.userId == null) {
       this.snackBarService.open("Couldn't find user with that ID");
       this.router.navigate(['users/list']);
       return;
     }
 
     this.userInfoSub = this.appUserService
-      .getUserInfo(userId)
+      .getUserInfo(this.userId)
       .subscribe((userInfo) => {
         this.userInfo = userInfo.data();
       });
 
     this.gamesSub = combineLatest([
-      this.gameRatingService.getRatingsForUser(userId),
-      this.gameService.getGamesRatedByUser(userId),
+      this.gameRatingService.getRatingsForUser(this.userId),
+      this.gameService.getGamesRatedByUser(this.userId),
     ])
       .pipe(
         map(([ratings, games]) => {
@@ -68,14 +76,38 @@ export class UsersViewComponent implements OnInit, OnDestroy {
             }
           });
 
-          return games;
-        }),
-        map((unsortedGames) => unsortedGames.sort(this.gameService.favorSort))
+          return games.sort(this.gameService.favorSort);
+        })
       )
       .subscribe((gameList) => {
         this.gameList = gameList;
         this.loadingGameList = false;
       });
+
+    this.userSub = this.auth.user.subscribe((newUser) => {
+      this.currentUser = newUser;
+    });
+  }
+
+  isCurrentUser(): boolean {
+    if (!this.currentUser || !this.userId) {
+      return false;
+    }
+
+    if (this.currentUser.uid == this.userId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  canEdit(): boolean {
+    if (this.loadingGameList) return false;
+    if (!this.isCurrentUser()) return false;
+    if (this.gameList.length == 0) return false;
+    if (this.isEditing) return false;
+
+    return true;
   }
 
   ngOnDestroy(): void {
@@ -85,6 +117,10 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
     if (this.gamesSub) {
       this.gamesSub.unsubscribe();
+    }
+
+    if (this.userSub) {
+      this.userSub.unsubscribe();
     }
   }
 }

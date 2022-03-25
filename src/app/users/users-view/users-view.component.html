@@ -1,15 +1,37 @@
-<h1 *ngIf="userInfo">{{ userInfo.name }}</h1>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1 *ngIf="userInfo">{{ userInfo.name }}</h1>
+
+  <!-- MAKE SURE TO REMOVE FALSE HERE WHEN FEATURE IS DONE -->
+  <button mat-icon-button *ngIf="canEdit() && false" (click)="isEditing = true">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="isEditing"
+    color="accent"
+    (click)="isEditing = false"
+  >
+    Done Editing
+  </button>
+</div>
 
 <div *ngIf="!loadingGameList" class="games-div">
   <app-generic-game-list
-    *ngIf="gameList.length > 0"
+    *ngIf="gameList.length > 0 && !isEditing"
     [games]="gameList"
     [displayedColumns]="displayedColumns"
     [maxFavorValue]="3"
     [minFavorValue]="-1"
   ></app-generic-game-list>
 
-  <h3 *ngIf="gameList.length == 0">This bozo hasn't rated any games!</h3>
+  <table *ngif="isEditing"></table>
+
+  <h3 *ngIf="gameList.length == 0 && !isCurrentUser()">
+    This bozo hasn't rated any games!
+  </h3>
+  <h3 *ngIf="gameList.length == 0 && isCurrentUser()">
+    You haven't rated any games yet!
+  </h3>
 </div>
 
 <mat-spinner *ngIf="!userInfo || loadingGameList"></mat-spinner>
