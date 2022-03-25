@@ -1,3 +1,7 @@
 mat-spinner {
   margin: auto;
 }
+
+.game-list-div {
+  padding-bottom: 2rem;
+}

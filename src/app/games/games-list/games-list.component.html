@@ -1,9 +1,11 @@
-<app-generic-game-list
-  *ngIf="!isLoading"
-  [games]="gamesList"
-  [displayedColumns]="displayedColumns"
-  [maxFavorValue]="maxFavorValue"
-  [minFavorValue]="minFavorValue"
-></app-generic-game-list>
+<div class="game-list-div" *ngIf="!isLoading">
+  <app-generic-game-list
+    [games]="gamesList"
+    [displayedColumns]="displayedColumns"
+    [maxFavorValue]="maxFavorValue"
+    [minFavorValue]="minFavorValue"
+    class="game-list"
+  ></app-generic-game-list>
+</div>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>

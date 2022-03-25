@@ -1,6 +1,6 @@
 <h1 *ngIf="userInfo">{{ userInfo.name }}</h1>
 
-<div *ngIf="!loadingGameList">
+<div *ngIf="!loadingGameList" class="games-div">
   <app-generic-game-list
     *ngIf="gameList.length > 0"
     [games]="gameList"
