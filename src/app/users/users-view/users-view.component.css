@@ -5,3 +5,13 @@ mat-spinner {
 .games-div {
   padding-bottom: 2rem;
 }
+
+table {
+  width: 100%;
+}
+
+mat-select {
+  background: #0000000a;
+  border-radius: 5px;
+  padding: 8px;
+}

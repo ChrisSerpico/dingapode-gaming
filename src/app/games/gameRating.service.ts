@@ -25,4 +25,8 @@ export class GameRatingService {
   public getRatingsForUser(userId: string) {
     return this.getRatings([userId]);
   }
+
+  public updateRating(id: string, data: Partial<GameRating>) {
+    return this.gameRatingsCollection.doc(id).update(data);
+  }
 }

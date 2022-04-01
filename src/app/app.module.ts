@@ -32,6 +32,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { GenericGameListComponent } from './games/reusable/generic-game-list/generic-game-list.component';
 import { UsersViewComponent } from './users/users-view/users-view.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { UsersViewComponent } from './users/users-view/users-view.component';
     AngularFirestoreModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

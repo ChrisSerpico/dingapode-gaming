@@ -67,6 +67,21 @@ export class GameService {
     }
   }
 
+  public getFavorString(willingness: number): string {
+    switch (willingness) {
+      case 3:
+        return 'love';
+      case 2:
+        return 'like';
+      case 1:
+        return 'okay';
+      case -1:
+        return 'hate';
+      default:
+        return 'unowned';
+    }
+  }
+
   public favorSort(a: Game, b: Game) {
     if (a.favorability > b.favorability) {
       return -1;
