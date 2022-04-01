@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyDXK8O2j0UI8Igow9xiCvZr40WOSMVcwgE',
-    authDomain: 'dingapode-gaming.firebaseapp.com',
-    projectId: 'dingapode-gaming',
-    storageBucket: 'dingapode-gaming.appspot.com',
-    messagingSenderId: '878304973092',
-    appId: '1:878304973092:web:8d41bbe7620193ad0463b1',
+    apiKey: 'AIzaSyD4HUFH6NZ-gCxfimc2-4ijtb37LY9mT_Y',
+    authDomain: 'dingapode-gaming-dev.firebaseapp.com',
+    projectId: 'dingapode-gaming-dev',
+    storageBucket: 'dingapode-gaming-dev.appspot.com',
+    messagingSenderId: '679099490060',
+    appId: '1:679099490060:web:6b5b1fea08b3008984b329',
   },
 };
 
