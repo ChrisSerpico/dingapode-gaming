@@ -27,7 +27,6 @@ export class GenericGameListComponent implements OnInit {
     this.colorScale = chroma.scale([
       'ff0000',
       'ffa700',
-      'fff400',
       'a3ff00',
       '2cba00',
     ]);
