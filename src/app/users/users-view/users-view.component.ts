@@ -49,45 +49,17 @@ export class UsersViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('userId');
 
-    if (this.userId == null) {
-      this.snackBarService.open("Couldn't find user with that ID");
-      this.router.navigate(['users/list']);
-      return;
-    }
+    this.route.paramMap.subscribe((paramMap) => {
+      this.userId = paramMap.get('userId');
 
-    this.userInfoSub = this.appUserService
-      .getUserInfo(this.userId)
-      .subscribe((userInfo) => {
-        this.userInfo = userInfo.data();
-      });
+      if (this.userId == null) {
+        this.snackBarService.open("Couldn't find user with that ID");
+        this.router.navigate(['users/list']);
+        return;
+      }
 
-    this.gamesSub = combineLatest([
-      this.gameRatingService.getRatingsForUser(this.userId),
-      this.gameService.getGamesRatedByUser(this.userId),
-    ]).subscribe(([ratings, games]) => {
-      this.originalFavorability = new Map();
-      this.matchedRatings = new Map();
-      this.gameList = [];
-
-      games.forEach((game) => {
-        const newGame = { ...game };
-        const matchingRating = ratings.find((rating) => rating.game == game.id);
-        this.originalFavorability.set(game.id, game.favorability);
-
-        if (!matchingRating) {
-          newGame.favorability = 0;
-        } else {
-          newGame.favorability = this.gameService.calculateFavorValue(
-            matchingRating.rating
-          );
-          this.matchedRatings.set(game.id, matchingRating);
-        }
-
-        this.gameList.push(newGame);
-      });
-
-      this.gameList = this.gameList.sort(this.gameService.favorSort);
-      this.loadingGameList = false;
+      this.updateUserSub();
+      this.updateGamesSub();
     });
 
     this.userSub = this.auth.user.subscribe((newUser) => {
@@ -167,6 +139,59 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     if (this.isEditing) return false;
 
     return true;
+  }
+
+  private updateUserSub() {
+    if (!this.userId) return;
+
+    if (this.userInfoSub) {
+      this.userInfoSub.unsubscribe();
+    }
+
+    this.userInfoSub = this.appUserService
+      .getUserInfo(this.userId)
+      .subscribe((userInfo) => {
+        this.userInfo = userInfo.data();
+      });
+  }
+
+  private updateGamesSub() {
+    if (!this.userId) return;
+
+    if (this.gamesSub) {
+      this.gamesSub.unsubscribe();
+    }
+
+    this.loadingGameList = true;
+
+    this.gamesSub = combineLatest([
+      this.gameRatingService.getRatingsForUser(this.userId),
+      this.gameService.getGamesRatedByUser(this.userId),
+    ]).subscribe(([ratings, games]) => {
+      this.originalFavorability = new Map();
+      this.matchedRatings = new Map();
+      this.gameList = [];
+
+      games.forEach((game) => {
+        const newGame = { ...game };
+        const matchingRating = ratings.find((rating) => rating.game == game.id);
+        this.originalFavorability.set(game.id, game.favorability);
+
+        if (!matchingRating) {
+          newGame.favorability = 0;
+        } else {
+          newGame.favorability = this.gameService.calculateFavorValue(
+            matchingRating.rating
+          );
+          this.matchedRatings.set(game.id, matchingRating);
+        }
+
+        this.gameList.push(newGame);
+      });
+
+      this.gameList = this.gameList.sort(this.gameService.favorSort);
+      this.loadingGameList = false;
+    });
   }
 
   ngOnDestroy(): void {
